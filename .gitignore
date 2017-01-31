@@ -1,0 +1,12 @@
+dev
+dev/*
+*~lock*
+__pycache__
+settings.py
+settings.sh
+smarty/templates_c
+www/settings.php
+www/settings.json
+www/fonts
+db/backup/
+db/pg_backup.config
