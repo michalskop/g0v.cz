@@ -1,6 +1,17 @@
 -- We create a database schema especially for auth information. We'll also need the postgres extension pgcrypto.
 -- needs to be run on correct DB !!!
 
+-- may not be needed:
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Note that the database administrator must allow the authenticator role to switch into this user by previously executing
+
+CREATE ROLE author NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+
+GRANT author TO authenticator;
+
+
+
 -- First we’ll need a table to keep track of our users:
 -- We put things inside the basic_auth schema to hide
 -- them from public view. Certain public procs/views will
@@ -54,12 +65,12 @@ end
 $$;
 
 drop trigger if exists encrypt_pass on basic_auth.users;
- create trigger encrypt_pass
-   before insert or update on basic_auth.users
-   for each row
-   execute procedure basic_auth.encrypt_pass();
+create trigger encrypt_pass
+  before insert or update on basic_auth.users
+  for each row
+  execute procedure basic_auth.encrypt_pass();
 
--- With the table in place we can make a helper to check a password against the encrypted column. It returns the database role for a user if the email and password are correct.
+ -- With the table in place we can make a helper to check a password against the encrypted column. It returns the database role for a user if the email and password are correct.
 
 create or replace function
 basic_auth.user_role(email text, pass text) returns name
@@ -119,8 +130,7 @@ $$;
 create role anon;
 create role authenticator noinherit;
 grant anon to authenticator;
-grant usage on schema basic_auth to anon;
--- grant usage on schema basic_auth to anon;
+grant usage on schema public, basic_auth to anon;
 grant select on table pg_authid, basic_auth.users to anon;
 grant execute on function login(text,text) to anon;
 CREATE ROLE author NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;

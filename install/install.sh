@@ -50,7 +50,7 @@ su postgres
 createdb cron -O postgres -E UTF-8 -D pg_default --lc-collate en_US.UTF-8 --lc-ctype en_US.UTF.8 -T template0
 
 
-psql -f "$APIPATH"cron_basic_auth_setup.sql -d $DB
+psql -f "$APIPATH"basic_auth_setup.sql -d $DB
 #psql -f "$APIPATH"hlasovali.sql -d $DB
 
     # basic insert
