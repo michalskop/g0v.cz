@@ -4,6 +4,8 @@
 # install cron db
 # requires running AFTER install.sh
 
+# run from the correct directory
+
 include settings.sh
 
 # config file
@@ -49,7 +51,7 @@ createdb cron -O postgres -E UTF-8 -D pg_default --lc-collate en_US.UTF-8 --lc-c
 
 
 psql -f "$APIPATH"cron_basic_auth_setup.sql -d $DB
-psql -f "$APIPATH"hlasovali.sql -d $DB
+#psql -f "$APIPATH"hlasovali.sql -d $DB
 
     # basic insert
 include settings.sh
