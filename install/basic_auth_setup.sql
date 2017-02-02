@@ -136,3 +136,5 @@ grant execute on function login(text,text) to anon;
 CREATE ROLE author NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT author TO authenticator;
 grant usage on schema public, basic_auth to author;
+grant select on table pg_authid, basic_auth.users to author;
+grant execute on function login(text,text) to author;

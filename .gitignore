@@ -10,3 +10,5 @@ www/settings.json
 www/fonts
 db/backup/
 db/pg_backup.config
+credentials.py
+*.pyc

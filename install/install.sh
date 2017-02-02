@@ -7,6 +7,7 @@
 # run from the correct directory
 
 include settings.sh
+# source settings.sh
 
 # config file
 cd /tmp
@@ -30,7 +31,6 @@ sudo cp postgrest.service /etc/systemd/system/postgrest-$APIPORT.service
 sudo service postgrest-$APIPORT start
 
 # api apache config
-MYSITE="api.g0v.cz"
 cd /tmp
 
 wget "https://gist.githubusercontent.com/michalskop/9edee4757545c7d905c4/raw/92a67b4302a1f46df7dbf4fe5a0b6783ca9db04a/api.example.com.conf" -O api.example.com.conf
@@ -47,13 +47,39 @@ sudo service apache2 restart
 
 # create db
 su postgres
-createdb cron -O postgres -E UTF-8 -D pg_default --lc-collate en_US.UTF-8 --lc-ctype en_US.UTF.8 -T template0
+include settings.sh
+
+createdb $DB -O postgres -E UTF-8 -D pg_default --lc-collate cs_CZ.UTF-8 --lc-ctype cs_CZ.UTF.8 -T template0
 
 
 psql -f "$APIPATH"basic_auth_setup.sql -d $DB
 #psql -f "$APIPATH"hlasovali.sql -d $DB
 
     # basic insert
-include settings.sh
 
 psql -d $DB -c "INSERT INTO basic_auth.users(email,pass,role) VALUES ('$MYEMAIL','$MYPASS','author')"
+
+exit
+
+# letsencrypt
+sudo /usr/bin/letsencrypt
+
+# python packages
+sudo apt-get -y install python3-pip
+sudo pip3 install lxml
+
+
+# botsendme
+sudo apt-get install libapache2-mod-wsgi-py3 python-dev
+sudo a2enmod cgi
+sudo a2enmod xml2enc
+sudo pip install virtualenv
+cd ~
+sudo virtualenv .botsendme
+source .botsendme/bin/activate
+sudo pip3 install Flask
+
+
+
+
+sudo service apache2 restart
