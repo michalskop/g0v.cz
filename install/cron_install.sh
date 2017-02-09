@@ -6,7 +6,7 @@
 
 # run from the correct directory
 
-include cronsettings.sh
+include settings.sh
 # source settings.sh
 
 # config file
@@ -47,7 +47,7 @@ sudo service apache2 restart
 
 # create db
 su postgres
-include cronsettings.sh
+include settings.sh
 
 createdb $DB -O postgres -E UTF-8 -D pg_default --lc-collate cs_CZ.UTF-8 --lc-ctype cs_CZ.UTF.8 -T template0
 

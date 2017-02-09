@@ -4,6 +4,7 @@ dev/*
 __pycache__
 settings.py
 settings.sh
+cronsettings.sh
 smarty/templates_c
 www/settings.php
 www/settings.json
