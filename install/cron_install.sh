@@ -6,7 +6,7 @@
 
 # run from the correct directory
 
-include settings.sh
+include cronsettings.sh
 # source settings.sh
 
 # config file
